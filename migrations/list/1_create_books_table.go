@@ -19,6 +19,7 @@ func (m *CreateBooksTable) Up(con *sqlx.DB) {
 	table.String("author", 100).NotNull()
 	table.String("genre", 100).NotNull()
 	table.String("year", 10).NotNull()
+	table.String("created_by", 100).NotNull()
 	table.Column("deleted_at").Type("datetime").Nullable()
 	table.WithTimestamps()
 

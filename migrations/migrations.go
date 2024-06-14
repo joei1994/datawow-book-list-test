@@ -15,5 +15,6 @@ func getMigrationsList() []gmStore.Migratable {
 	return []gmStore.Migratable{
 		&list.CreateBooksTable{},
 		&list.CreateUserTable{},
+		&list.AddTagColumn{},
 	}
 }

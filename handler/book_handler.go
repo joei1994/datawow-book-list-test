@@ -9,6 +9,7 @@ import (
 	"datawow/book-list/requests"
 	"datawow/book-list/responses"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 )
 
@@ -22,7 +23,7 @@ func NewBookHandler(bookUseCase domain.IBookUseCase) *BookHandler {
 	}
 }
 
-func (h *BookHandler) RegisterRoutes(r *echo.Group) {
+func (h *BookHandler) Routes(r *echo.Group) {
 	r.POST("/books", h.CreateBook)
 	r.GET("/books/:id", h.GetBook)
 	r.GET("/books", h.GetBooks)
@@ -31,16 +32,19 @@ func (h *BookHandler) RegisterRoutes(r *echo.Group) {
 }
 
 func (h *BookHandler) CreateBook(c echo.Context) error {
-	reqPayload := requests.BookPayload{}
-	if err := c.Bind(&reqPayload); err != nil {
+	payload := requests.BookPayload{}
+	if err := c.Bind(&payload); err != nil {
 		return responses.ErrorResponse(c, http.StatusBadRequest, err.Error())
 	}
 
-	if err := reqPayload.Validate(); err != nil {
+	if err := payload.Validate(); err != nil {
 		return responses.ErrorResponse(c, http.StatusBadRequest, err.Error())
 	}
 
-	book, err := h.bookUseCase.CreateBook(h.toBook(reqPayload))
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(*models.JwtCustomClaims)
+
+	book, err := h.bookUseCase.CreateBook(h.toBook(payload, claims.Name))
 	if err != nil {
 		return responses.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
@@ -106,7 +110,10 @@ func (h *BookHandler) UpdateBook(c echo.Context) error {
 		return responses.ErrorResponse(c, http.StatusBadRequest, err.Error())
 	}
 
-	book, err := h.bookUseCase.UpdateBook(uint(id), h.toBook(reqPayload))
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(*models.JwtCustomClaims)
+
+	book, err := h.bookUseCase.UpdateBook(uint(id), h.toBook(reqPayload, claims.Name))
 	if err != nil {
 		return responses.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
@@ -114,11 +121,13 @@ func (h *BookHandler) UpdateBook(c echo.Context) error {
 	return responses.Response(c, http.StatusOK, book)
 }
 
-func (h *BookHandler) toBook(req requests.BookPayload) models.Book {
+func (h *BookHandler) toBook(req requests.BookPayload, createdBy string) models.Book {
 	return models.Book{
-		Title:  req.Title,
-		Author: req.Author,
-		Genre:  req.Genre,
-		Year:   req.Year,
+		Title:     req.Title,
+		Author:    req.Author,
+		Genre:     req.Genre,
+		Year:      req.Year,
+		Tag:       req.Tag,
+		CreatedBy: createdBy,
 	}
 }

@@ -22,7 +22,7 @@ func NewUserHandler(userUseCase domain.IUserUseCase) *UserHandler {
 	}
 }
 
-func (h *UserHandler) RegisterRoutes(r *echo.Group) {
+func (h *UserHandler) Routes(r *echo.Group) {
 	r.POST("/register", h.Register)
 	r.POST("/login", h.Login)
 }

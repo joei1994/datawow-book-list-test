@@ -20,7 +20,7 @@ func Start(config *config.Config) {
 	ucs := domain.NewUseCase(config, repos)
 	handlers := handler.NewHandler(ucs)
 
-	handlers.RegisterRoutes(server)
+	handlers.Routes(config.Auth, server)
 
 	err := server.Start(":" + config.Http.Port)
 	if err != nil {

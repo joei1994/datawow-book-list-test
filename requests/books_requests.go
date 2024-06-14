@@ -7,6 +7,7 @@ type BookPayload struct {
 	Author string `json:"author" validate:"required"`
 	Genre  string `json:"genre"`
 	Year   string `json:"year"`
+	Tag    string `json:"tag"`
 }
 
 func (p BookPayload) Validate() error {

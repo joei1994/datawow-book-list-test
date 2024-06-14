@@ -1,9 +1,14 @@
 package handler
 
 import (
+	"datawow/book-list/config"
 	domain "datawow/book-list/domain/usecase"
+	"datawow/book-list/models"
 
+	"github.com/golang-jwt/jwt/v5"
+	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 type Handler struct {
@@ -18,9 +23,20 @@ func NewHandler(usecase domain.UseCase) *Handler {
 	}
 }
 
-func (h *Handler) RegisterRoutes(server *echo.Echo) {
-	group := server.Group("/api")
+func (h *Handler) Routes(authConfig config.AuthConfig, server *echo.Echo) {
+	jwtConfig := echojwt.Config{
+		NewClaimsFunc: func(c echo.Context) jwt.Claims {
+			return new(models.JwtCustomClaims)
+		},
+		SigningKey: []byte(authConfig.AccessSecret),
+	}
 
-	h.BookHandler.RegisterRoutes(group)
-	h.UserHandler.RegisterRoutes(group)
+	apiGroup := server.Group("/api")
+	apiGroup.Use(echojwt.WithConfig(jwtConfig))
+	apiGroup.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(100)))
+
+	h.BookHandler.Routes(apiGroup)
+
+	authGroup := server.Group("/auth")
+	h.UserHandler.Routes(authGroup)
 }
