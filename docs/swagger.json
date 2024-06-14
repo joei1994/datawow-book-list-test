@@ -9,6 +9,55 @@
     "basePath": "/",
     "paths": {
         "/api/books": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get books",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Books Actions"
+                ],
+                "summary": "Get books",
+                "operationId": "books-get",
+                "parameters": [
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "Books IDs",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Book"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -61,7 +110,7 @@
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get books",
+                "description": "Get book",
                 "consumes": [
                     "application/json"
                 ],
@@ -71,16 +120,22 @@
                 "tags": [
                     "Books Actions"
                 ],
-                "summary": "Get books",
-                "operationId": "books-get",
+                "summary": "Get book",
+                "operationId": "book-get",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Book ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Book"
-                            }
+                            "$ref": "#/definitions/models.Book"
                         }
                     },
                     "400": {

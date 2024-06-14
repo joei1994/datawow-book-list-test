@@ -73,7 +73,7 @@ func (h *BookHandler) CreateBook(c echo.Context) error {
 //	@Tags			Books Actions
 //	@Accept			json
 //	@Produce		json
-//	@Param			id		path		int							true	"Book ID"
+//	@Param			id		path		int		true	"Book ID"
 //	@Success		200		{object}	models.Book
 //	@Failure		400		{object}	responses.Error
 //	@Security		ApiKeyAuth
@@ -100,10 +100,12 @@ func (h *BookHandler) GetBook(c echo.Context) error {
 //	@Tags			Books Actions
 //	@Accept			json
 //	@Produce		json
-//	@Success		200		{array}		models.Book
-//	@Failure		400		{object}	responses.Error
-//	@Security		ApiKeyAuth
-//	@Router			/api/books/{id} [get]
+//	@Param        	id   query    []string  true  "Books IDs"  collectionFormat(multi)
+//
+// @Success		200		{array}		models.Book
+// @Failure		400		{object}	responses.Error
+// @Security		ApiKeyAuth
+// @Router			/api/books [get]
 func (h *BookHandler) GetBooks(c echo.Context) error {
 	ids := []uint{}
 	for _, id := range c.QueryParams()["id"] {
@@ -126,7 +128,7 @@ func (h *BookHandler) GetBooks(c echo.Context) error {
 //	@Description	Delete book
 //	@ID				books-delete
 //	@Tags			Books Actions
-//	@Param			id		path		int							true	"Book ID"
+//	@Param			id		path		int		true	"Book ID"
 //	@Success		204	{object}	models.Book
 //	@Failure		404	{object}	responses.Error
 //	@Security		ApiKeyAuth
@@ -152,7 +154,7 @@ func (h *BookHandler) DeleteBook(c echo.Context) error {
 //	@Tags			Books Actions
 //	@Accept			json
 //	@Produce		json
-//	@Param			id		path		int							true	"Book ID"
+//	@Param			id		path		int		true	"Book ID"
 //	@Param			params	body		requests.BookPayload		true	"Book title and author"
 //	@Success		200		{object}	models.Book
 //	@Failure		400		{object}	responses.Error

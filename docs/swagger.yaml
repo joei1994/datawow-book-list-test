@@ -110,6 +110,38 @@ info:
   version: "1.0"
 paths:
   /api/books:
+    get:
+      consumes:
+      - application/json
+      description: Get books
+      operationId: books-get
+      parameters:
+      - collectionFormat: multi
+        description: Books IDs
+        in: query
+        items:
+          type: string
+        name: id
+        required: true
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Book'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Get books
+      tags:
+      - Books Actions
     post:
       consumes:
       - application/json
@@ -165,24 +197,28 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get books
-      operationId: books-get
+      description: Get book
+      operationId: book-get
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/models.Book'
-            type: array
+            $ref: '#/definitions/models.Book'
         "400":
           description: Bad Request
           schema:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Get books
+      summary: Get book
       tags:
       - Books Actions
     put:
