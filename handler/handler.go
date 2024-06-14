@@ -24,19 +24,18 @@ func NewHandler(usecase domain.UseCase) *Handler {
 }
 
 func (h *Handler) Routes(authConfig config.AuthConfig, server *echo.Echo) {
+	authGroup := server.Group("/auth")
+	h.UserHandler.Routes(authGroup)
+
 	jwtConfig := echojwt.Config{
 		NewClaimsFunc: func(c echo.Context) jwt.Claims {
 			return new(models.JwtCustomClaims)
 		},
 		SigningKey: []byte(authConfig.AccessSecret),
 	}
-
 	apiGroup := server.Group("/api")
 	apiGroup.Use(echojwt.WithConfig(jwtConfig))
 	apiGroup.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(100)))
 
 	h.BookHandler.Routes(apiGroup)
-
-	authGroup := server.Group("/auth")
-	h.UserHandler.Routes(authGroup)
 }

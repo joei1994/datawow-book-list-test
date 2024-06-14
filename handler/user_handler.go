@@ -27,6 +27,18 @@ func (h *UserHandler) Routes(r *echo.Group) {
 	r.POST("/login", h.Login)
 }
 
+// Register godoc
+//
+//	@Summary		Register a user
+//	@Description	Register a user
+//	@ID				user-register
+//	@Tags			Auth Actions
+//	@Accept			json
+//	@Produce		json
+//	@Param			params	body		requests.RegisterRequest	true	"User's credentials"
+//	@Success		200		{object}	models.User
+//	@Failure		401		{object}	responses.Error
+//	@Router			/auth/register [post]
 func (h *UserHandler) Register(c echo.Context) error {
 	payload := requests.RegisterRequest{}
 
@@ -46,6 +58,18 @@ func (h *UserHandler) Register(c echo.Context) error {
 	return responses.Response(c, http.StatusOK, user)
 }
 
+// Login godoc
+//
+//	@Summary		Authenticate a user
+//	@Description	Perform user login
+//	@ID				user-login
+//	@Tags			Auth Actions
+//	@Accept			json
+//	@Produce		json
+//	@Param			params	body		requests.LoginRequest	true	"User's credentials"
+//	@Success		200		{object}	responses.LoginResponse
+//	@Failure		401		{object}	responses.Error
+//	@Router			/auth/login [post]
 func (h *UserHandler) Login(c echo.Context) error {
 	payload := requests.LoginRequest{}
 
