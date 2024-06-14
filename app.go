@@ -17,7 +17,7 @@ func Start(config *config.Config) {
 
 	infras := infrastructure.NewInfrastructure(config)
 	repos := repository.NewRepository(infras)
-	ucs := domain.NewUseCase(repos)
+	ucs := domain.NewUseCase(config, repos)
 	handlers := handler.NewHandler(ucs)
 
 	handlers.RegisterRoutes(server)

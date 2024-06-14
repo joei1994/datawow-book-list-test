@@ -13,15 +13,18 @@ type IUserUseCase interface {
 	CreateUser(user models.User) (models.User, error)
 	GetUser(id uint) (models.User, error)
 	Register(user models.User) (models.User, error)
+	Login(email, password string) (accessToken, refreshToken string, exp int64, err error)
 }
 
 type UserUseCase struct {
 	userRepo repository.IUserRepository
+	tokenUc  ITokenUseCase
 }
 
-func NewUserUseCase(userRepo repository.IUserRepository) *UserUseCase {
+func NewUserUseCase(userRepo repository.IUserRepository, tokenUc ITokenUseCase) *UserUseCase {
 	return &UserUseCase{
 		userRepo: userRepo,
+		tokenUc:  tokenUc,
 	}
 }
 
@@ -53,4 +56,27 @@ func (uc *UserUseCase) Register(user models.User) (models.User, error) {
 	user.Password = string(encryptedPassword)
 
 	return uc.userRepo.CreateOne(user)
+}
+
+func (uc *UserUseCase) Login(email, password string) (accessToken, refreshToken string, expired int64, err error) {
+	user, err := uc.userRepo.FindByEmail(email)
+	if err != nil {
+		return
+	}
+
+	if user.ID == 0 || (bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)) != nil) {
+		return "", "", 0, errors.New(models.INVALID_CREDENTIALS)
+	}
+
+	accessToken, expired, err = uc.tokenUc.CreateAccessToken(user)
+	if err != nil {
+		return
+	}
+
+	refreshToken, err = uc.tokenUc.CreateRefreshToken(user)
+	if err != nil {
+		return
+	}
+
+	return accessToken, refreshToken, expired, err
 }

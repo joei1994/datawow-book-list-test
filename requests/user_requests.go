@@ -32,3 +32,11 @@ func (rr *RegisterRequest) Validate() error {
 		validation.Field(&rr.Name, validation.Required),
 	)
 }
+
+type LoginRequest struct {
+	BasicAuth
+}
+
+type RefreshRequest struct {
+	Token string `json:"token" validate:"required"`
+}

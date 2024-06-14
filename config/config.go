@@ -9,6 +9,7 @@ import (
 type Config struct {
 	Http  HttpConfig
 	MySql MySqlConfig
+	Auth  AuthConfig
 }
 
 func LoadConfig() *Config {
@@ -20,5 +21,6 @@ func LoadConfig() *Config {
 	return &Config{
 		Http:  LoadHttpConfig(),
 		MySql: LoadMySqlConfig(),
+		Auth:  LoadAuthConfig(),
 	}
 }

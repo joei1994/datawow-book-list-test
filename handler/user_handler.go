@@ -24,6 +24,7 @@ func NewUserHandler(userUseCase domain.IUserUseCase) *UserHandler {
 
 func (h *UserHandler) RegisterRoutes(r *echo.Group) {
 	r.POST("/register", h.Register)
+	r.POST("/login", h.Login)
 }
 
 func (h *UserHandler) Register(c echo.Context) error {
@@ -43,6 +44,35 @@ func (h *UserHandler) Register(c echo.Context) error {
 	}
 
 	return responses.Response(c, http.StatusOK, user)
+}
+
+func (h *UserHandler) Login(c echo.Context) error {
+	payload := requests.LoginRequest{}
+
+	if err := c.Bind(&payload); err != nil {
+		return err
+	}
+
+	if err := payload.Validate(); err != nil {
+		return responses.ErrorResponse(c, http.StatusBadRequest, "Required fields are empty or not valid")
+	}
+
+	accessToken, refreshToken, expired, err := h.userUseCase.Login(payload.Email, payload.Password)
+	if err != nil && err.Error() == models.INVALID_CREDENTIALS {
+		return responses.ErrorResponse(c, http.StatusUnauthorized, "Invalid Credentials")
+	}
+
+	if err != nil {
+		return responses.ErrorResponse(c, http.StatusInternalServerError, "Loin Failed")
+	}
+
+	resp := responses.LoginResponse{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+		Exp:          expired,
+	}
+
+	return responses.Response(c, http.StatusOK, resp)
 }
 
 func (h *UserHandler) toUser(payload requests.RegisterRequest) models.User {
