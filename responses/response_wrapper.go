@@ -5,13 +5,13 @@ import (
 )
 
 type Error struct {
-	Code  int    `json:"code"`
-	Error string `json:"error"`
+	Code  int    `json:"code" example:"404"`
+	Error string `json:"error" example:"Data Not Found"`
 }
 
 type Data struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
+	Code    int    `json:"code" example:"202"`
+	Message string `json:"message" example:"Create Success"`
 }
 
 func Response(c echo.Context, statusCode int, data interface{}) error {

@@ -8,7 +8,7 @@ services:
     volumes:
       - ./:/app/
     depends_on:
-      - echo_mysql
+      - book_list_mysql
     env_file:
       - .env
     environment:
@@ -17,9 +17,9 @@ services:
       - WAIT_BEFORE_HOSTS=15
       - WAIT_SLEEP_INTERVAL=3
     networks:
-      - echo-demo-stack
+      - book-list-stack
 
-  echo_mysql:
+  book_list_mysql:
     image: mysql:8.0
     container_name: echo_db
     ports:
@@ -33,11 +33,11 @@ services:
     volumes:
       - database_mysql:/var/lib/mysql
     networks:
-      - echo-demo-stack
+      - book-list-stack
 
 volumes:
   database_mysql:
 
 networks:
-  echo-demo-stack:
+  book-list-stack:
     driver: bridge

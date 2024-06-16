@@ -341,34 +341,40 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "author": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "J.K. Rowling"
                 },
                 "createdAt": {
                     "type": "string"
                 },
                 "createdBy": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "someone"
                 },
                 "deletedAt": {
                     "$ref": "#/definitions/gorm.DeletedAt"
                 },
                 "genre": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Fantasy"
                 },
                 "id": {
                     "type": "integer"
                 },
                 "tag": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Novel"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Harry Potter and The Chamber of Secrets"
                 },
                 "updatedAt": {
                     "type": "string"
                 },
                 "year": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1994"
                 }
             }
         },
@@ -382,13 +388,15 @@ const docTemplate = `{
                     "$ref": "#/definitions/gorm.DeletedAt"
                 },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "someone@example.com"
                 },
                 "id": {
                     "type": "integer"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "someone"
                 },
                 "password": {
                     "type": "string"
@@ -406,19 +414,24 @@ const docTemplate = `{
             ],
             "properties": {
                 "author": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "J.K. Rowling"
                 },
                 "genre": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Fantasy"
                 },
                 "tag": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Novel"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Harry Potter and The Chamber of Secrets"
                 },
                 "year": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1994"
                 }
             }
         },
@@ -430,10 +443,12 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "someone@example.com"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1234567890"
                 }
             }
         },
@@ -446,13 +461,16 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "someone@example.com"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "someone"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1234567890"
                 }
             }
         },
@@ -460,10 +478,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "code": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 404
                 },
                 "error": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Data Not Found"
                 }
             }
         },

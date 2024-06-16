@@ -6,8 +6,8 @@ import (
 )
 
 type BasicAuth struct {
-	Email    string `json:"email" validate:"required"`
-	Password string `json:"password" validate:"required"`
+	Email    string `json:"email" validate:"required" example:"someone@example.com"`
+	Password string `json:"password" validate:"required" example:"1234567890"`
 }
 
 func (ba BasicAuth) Validate() error {
@@ -19,7 +19,7 @@ func (ba BasicAuth) Validate() error {
 
 type RegisterRequest struct {
 	BasicAuth
-	Name string `json:"name" validate:"required"`
+	Name string `json:"name" validate:"required" example:"someone"`
 }
 
 func (rr *RegisterRequest) Validate() error {

@@ -11,24 +11,30 @@ definitions:
   models.Book:
     properties:
       author:
+        example: J.K. Rowling
         type: string
       createdAt:
         type: string
       createdBy:
+        example: someone
         type: string
       deletedAt:
         $ref: '#/definitions/gorm.DeletedAt'
       genre:
+        example: Fantasy
         type: string
       id:
         type: integer
       tag:
+        example: Novel
         type: string
       title:
+        example: Harry Potter and The Chamber of Secrets
         type: string
       updatedAt:
         type: string
       year:
+        example: "1994"
         type: string
     type: object
   models.User:
@@ -38,10 +44,12 @@ definitions:
       deletedAt:
         $ref: '#/definitions/gorm.DeletedAt'
       email:
+        example: someone@example.com
         type: string
       id:
         type: integer
       name:
+        example: someone
         type: string
       password:
         type: string
@@ -51,14 +59,19 @@ definitions:
   requests.BookPayload:
     properties:
       author:
+        example: J.K. Rowling
         type: string
       genre:
+        example: Fantasy
         type: string
       tag:
+        example: Novel
         type: string
       title:
+        example: Harry Potter and The Chamber of Secrets
         type: string
       year:
+        example: "1994"
         type: string
     required:
     - author
@@ -67,8 +80,10 @@ definitions:
   requests.LoginRequest:
     properties:
       email:
+        example: someone@example.com
         type: string
       password:
+        example: "1234567890"
         type: string
     required:
     - email
@@ -77,10 +92,13 @@ definitions:
   requests.RegisterRequest:
     properties:
       email:
+        example: someone@example.com
         type: string
       name:
+        example: someone
         type: string
       password:
+        example: "1234567890"
         type: string
     required:
     - email
@@ -90,8 +108,10 @@ definitions:
   responses.Error:
     properties:
       code:
+        example: 404
         type: integer
       error:
+        example: Data Not Found
         type: string
     type: object
   responses.LoginResponse:
