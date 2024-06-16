@@ -1,6 +1,6 @@
 services:
-  echo_app:
-    container_name: echo_demo
+  book_list_app:
+    container_name: book_list_app
     build: .
     ports:
       - ${EXPOSE_PORT}:${PORT}
@@ -21,7 +21,7 @@ services:
 
   book_list_mysql:
     image: mysql:8.0
-    container_name: echo_db
+    container_name: book_list_mysql
     ports:
       - ${EXPOSE_DB_PORT}:${DB_PORT}
     environment:
